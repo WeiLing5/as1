@@ -38,7 +38,6 @@ public class as1 extends Activity {
 
     private static final String FILENAME = "file.sav";
     private static final int EDIT = 0, DELETE = 1;
-    private static int fueltrackid;
 
     EditText datetxt, stationtxt, odometertxt, fuelgradetxt, fuelamounttxt, fuelunitcosttxt;
     //List<FuelTrack> FuelTracks = new ArrayList<FuelTrack>();
@@ -47,15 +46,14 @@ public class as1 extends Activity {
     int longClickedItemIndex;
     ArrayAdapter<FuelTrack> fueltrackAdapter;
     private boolean isEditMode;
-    // int FuelTrackSelected;
 
-
+    // What to do when the app open
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_as1);
 
-        //
+        // WHat each input is for
         datetxt = (EditText) findViewById(R.id.Datetxt);
         stationtxt = (EditText) findViewById(R.id.Station);
         odometertxt = (EditText) findViewById(R.id.Odometer);
@@ -122,6 +120,7 @@ public class as1 extends Activity {
             }
         });
 
+        // A Button that clear the inputs
         final Button BtnClear = (Button) findViewById(R.id.BtnClear);
         BtnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +154,7 @@ public class as1 extends Activity {
             );
         }
 
+    // Load file when the app starts
         @Override
     protected void onStart() {
         // TODO Auto-generated method stub
@@ -172,6 +172,7 @@ public class as1 extends Activity {
         saveInFile();
     }
 
+    // When hold click on a data make a popup with Edit and Delete
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
 
@@ -182,8 +183,10 @@ public class as1 extends Activity {
         menu.add(Menu.NONE, DELETE, menu.NONE, "Delete Fuel Track");
     }
 
+    // The two option when hold click on data EDIT/DELETE
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            // Allow Edit
             case EDIT:
                 enableEditMode(FuelTracks.get(longClickedItemIndex));
                 FuelTracks.remove(longClickedItemIndex);
@@ -191,6 +194,7 @@ public class as1 extends Activity {
                 fueltrackAdapter.notifyDataSetChanged();
                 saveInFile();
                 break;
+            // Delete
             case DELETE:
                 FuelTracks.remove(longClickedItemIndex);
                 fueltrackAdapter.notifyDataSetChanged();
@@ -200,8 +204,10 @@ public class as1 extends Activity {
         return super.onContextItemSelected(item);
     }
 
+    // Allow Edit
     private void enableEditMode(FuelTrack fueltrack) {
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+        // Change to edit tab
         tabHost.setCurrentTab(0);
         datetxt.setText(fueltrack.get_date());
         stationtxt.setText(fueltrack.get_station());
@@ -219,6 +225,7 @@ public class as1 extends Activity {
         isEditMode = true;
     }
 
+    // Clear input
     private void resetAddFuelTrackTab() {
         datetxt.setText("");
         stationtxt.setText("");
@@ -229,24 +236,20 @@ public class as1 extends Activity {
 
     }
 
+    // populate with data
     private void populateList() {
-        // ArrayAdapter<FuelTrack> adapter = new FuelTrackListAdapter();
         fueltrackAdapter = new FuelTrackListAdapter();
         FuelTrackListView.setAdapter(fueltrackAdapter);
         saveInFile();
-        // FuelTrackListView.setAdapter(adapter);
     }
 
+    // Add Fule Track
     private void addFuelTracks(String date, String station, String odometer,
                                String fuelgrade, String fuelamount, String fuelunitcost) {
         FuelTracks.add(new FuelTrack(date, station, odometer, fuelgrade, fuelamount, fuelunitcost));
-        //saveInFile();
-        //Gson gson = new Gson();
-
-        //Type listType = new TypeToken<ArrayList<FuelTrack>>() {}.getType();
-        //FuelTracks = gson.fromJson(in, listType);
     }
 
+    // Load file
     private void loadFromFile() {
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -260,7 +263,6 @@ public class as1 extends Activity {
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            //FuelTracks = new ArrayList<FuelTrack>();
             FuelTracks = new ArrayList<>();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -268,6 +270,7 @@ public class as1 extends Activity {
         }
     }
 
+    // Save file
     private void saveInFile() {
         try {
             FileOutputStream fos = openFileOutput(FILENAME,
@@ -287,6 +290,7 @@ public class as1 extends Activity {
         }
     }
 
+    //
     private class FuelTrackListAdapter extends ArrayAdapter<FuelTrack> {
         private Double fuelcostdecimal, odometerdecimal, fuelamountdecimal, fuelunitcostdecimal;
         public FuelTrackListAdapter() {
@@ -295,39 +299,50 @@ public class as1 extends Activity {
 
         @Override
         public View getView(int position, View view, ViewGroup parent) {
-            //Double fuelcostdecimal;
             if (view == null)
                 view = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
 
+            // Which Fuel is currently tracking
             FuelTrack currentFuelTrack = FuelTracks.get(position);
 
+            // Get input and set the text in Fuel Track tab
+
+            // Date:
             TextView date = (TextView) view.findViewById(R.id.fuelDate);
             date.setText("Date: " + currentFuelTrack.get_date());
+
+            // Station:
             TextView station = (TextView) view.findViewById(R.id.fuelStation);
             station.setText("Station: " + currentFuelTrack.get_station());
+
+            // Odometer: 0.0 km
             TextView odometer = (TextView) view.findViewById(R.id.fuelOdometer);
             odometerdecimal = Double.parseDouble(currentFuelTrack.get_odometer());
             odometer.setText(String.format("Odometer: %.1f km", odometerdecimal));
             //odometer.setText("Odometer: " + currentFuelTrack.get_odometer() + " km");
+
+            // Fuel Grade:
             TextView fuelgrade = (TextView) view.findViewById(R.id.fuelGrade);
             fuelgrade.setText("Fuel Grade: " + currentFuelTrack.get_fuelgrade());
+
+            // Fuel Amount: 0.000 L
             TextView fuelamount = (TextView) view.findViewById(R.id.fuelAmount);
             fuelamountdecimal = Double.parseDouble(currentFuelTrack.get_fuelamount());
             fuelamount.setText(String.format("Fuel Amount: %.3f L", fuelamountdecimal));
             //fuelamount.setText("Fuel Amount: " + currentFuelTrack.get_fuelamount()+ " L");
+
+            // Fuel Unit Cost: 0.0 cents/L
             TextView fuelunitcost = (TextView) view.findViewById(R.id.fuelUnitCost);
             fuelunitcostdecimal = Double.parseDouble(currentFuelTrack.get_fuelunitcost());
             fuelunitcost.setText(String.format("Fuel Unit Cost: %.1f cents/L", fuelunitcostdecimal));
             //fuelunitcost.setText("Fuel Unit Cost: " + currentFuelTrack.get_fuelunitcost() + " cents/L");
+
+            // Fuel Cost: 0.00 Dollar
             TextView fuelcost = (TextView) view.findViewById(R.id. fuelCost);
             fuelcostdecimal = Double.parseDouble(currentFuelTrack.get_fuelamount()) *
                     Double.parseDouble(currentFuelTrack.get_fuelunitcost());
-            //stringfuelcost = String.valueOf(fuelcostdecimal);
+            // Fuel Cost = Fuel Amount * Fuel Unit Cost
             fuelcost.setText(String.format("Fuel Cost: %.2f Dollar", fuelcostdecimal/100));
-            //fuelcost.setText(String.valueOf(Double.parseDouble(fuelamounttxt.getText().toString()) *
-            //        Double.parseDouble(fuelunitcosttxt.getText().toString()) / 100));
-
-
 
             return view;
         }
