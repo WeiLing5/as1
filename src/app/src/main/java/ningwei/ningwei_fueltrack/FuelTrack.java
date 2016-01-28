@@ -41,12 +41,4 @@ public class FuelTrack {
     public String get_fuelunitcost() {
         return _fuelunitcost;
     }
-
-    //public String get_fuelcost() {
-        //fuelunitcosts = Integer.parseInt(get_fuelunitcost());
-        //fuelamounts = Integer.parseInt(get_fuelamount());
-        //fuelcosts = fuelunitcosts * fuelamounts;
-        //_fuelcost = Integer.toString(fuelcosts);
-    //    return _fuelcost;
-    //}
 }
