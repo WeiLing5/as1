@@ -55,6 +55,7 @@ public class as1 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_as1);
 
+        //
         datetxt = (EditText) findViewById(R.id.Datetxt);
         stationtxt = (EditText) findViewById(R.id.Station);
         odometertxt = (EditText) findViewById(R.id.Odometer);
@@ -76,40 +77,24 @@ public class as1 extends Activity {
         final TabHost tabHost= (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
 
+        // Naming the tab as Data
         TabHost.TabSpec tabSpec = tabHost.newTabSpec("creator");
         tabSpec.setContent(R.id.tabCreator);
         tabSpec.setIndicator("Data");
         tabHost.addTab(tabSpec);
 
+        // Naming the tab as Fuel Track
         tabSpec = tabHost.newTabSpec("fueltrack");
         tabSpec.setContent(R.id.tabFuelTrack);
         tabSpec.setIndicator("Fuel Track");
         tabHost.addTab(tabSpec);
 
+        // When the add buttom clicked
         final Button addBtn = (Button) findViewById(R.id.FTAdd);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // When Add button is click show that the fuel track log has been created
-                // Toast.makeText(getApplicationContext(),"Log entry has been created.", Toast.LENGTH_SHORT).show();
-                //addFuelTracks(datetxt.getText().toString(), stationtxt.getText().toString(),
-                //        odometertxt.getText().toString(), fuelgradetxt.getText().toString(),
-                //        fuelamounttxt.getText().toString(), fuelunitcosttxt.getText().toString());
-                //populateList();
-                //fueltrackAdapter.notifyDataSetChanged();
-                //Toast.makeText(getApplicationContext(), datetxt.getText().toString() +
-                //        " has been added to Fuel Track!", Toast.LENGTH_SHORT).show();
-                //saveInFile();
-
                 if (isEditMode){
-                    //FuelTrack newFuelTrack = FuelTracks.get(longClickedItemIndex);
-                    //loadFromFile();
-                    //addFuelTracks("Date: " + datetxt.getText().toString(),
-                    //        "Station: " + stationtxt.getText().toString(),
-                    //        "Odometer: " + odometertxt.getText().toString() + " km",
-                    //        "Fuel Grade: " + fuelgradetxt.getText().toString(),
-                    //        "Fuel Amount: " + fuelamounttxt.getText().toString() + " L",
-                    //        "Fuel Unit Cost: " + fuelunitcosttxt.getText().toString()+ " cents/L");
                     addFuelTracks(datetxt.getText().toString(), stationtxt.getText().toString(),
                             odometertxt.getText().toString(), fuelgradetxt.getText().toString(),
                             fuelamounttxt.getText().toString(), fuelunitcosttxt.getText().toString());
