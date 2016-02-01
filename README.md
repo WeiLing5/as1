@@ -2,13 +2,14 @@
 https://youtu.be/apzI6L-92u0 or https://archive.org/download/NingweiAssignment1
 
 Function:
-- view the log entries (newest addition appearing last)
-- add a new entry (appends to the log)
-- select and edit an existing entry
-- cancel adding or editing an entry
+- view the log entries (newest addition appearing last) (Tab 1)
+- add a new entry (appends to the log) (Tab 0. Add Button)
+- select and edit an existing entry (Hold left click)
+- cancel adding or editing an entry (Clear Button)
 - see the total overall fuel cost (computed, in dollars, to 2 decimal places), in the view of the log entries
 
-Note: App crashes if no data are entered when the user click the add button. Tab 0 is the add/edit tab, tab 1 is the data tab.
+Assumption: User will enter all data before clicking the add button.
+Note: App crashes if fuel unit cost and fuel cost are not entered when the user click the add button. 
 
 Source:
 - https://www.youtube.com/watch?v=ZddHwDYqyIw&list=PL_PaSTBkUwk4PXlhZIe4COpwnWeCRnw2F
